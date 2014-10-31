@@ -8,7 +8,7 @@ u8 tail_of_i2c1_tx=0;
 u8 head_of_i2c1_tx=0;
 u8 number_of_i2c1_tx=0;
 u8 tx_data_i2c[8];
-u2 tx_adress_i2c=0;
+u8 tx_adress_i2c=0;
 // ------------ architecture.h
 u16 tail_of_tasks=0;              // сюда мы записываем очередную задачу и првоеряем чтобы tail не превышал буфер
 u16 head_of_tasks=0;              // отсюда мы берём задачу на выполнение и првоеряем чтобы head не превышал буфер

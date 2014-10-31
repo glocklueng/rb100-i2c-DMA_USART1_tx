@@ -37,6 +37,7 @@ void USART1_IRQHandler(void)
         {
         head_of_usart1=tail_of_usart1;
         number_of_usart1=0;
+        
         }
     USART1->SR&=~USART_SR_RXNE; // флаги
     USART1->SR&=~USART_SR_ORE;

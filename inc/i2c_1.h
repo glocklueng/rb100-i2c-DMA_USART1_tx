@@ -20,24 +20,35 @@ void init_i2c()
     while (!(I2C1->CR1 & I2C_CR1_PE)){}
     }
 
+
+void I2C2_EV_IRQHandler()
+  {
+  switch(I2C1->SR1)
+    {
+    case I2C_SR1_TXE:
+      {
+
+      }
+    break;
+    }
+  }
+
 void i2c1_tx(char adress, char data, char tx_or_rx)
     {
-    tx_adress_i2c=adress;
+    tx_adress_i2c=(adress<<1);    // сдвигаем адрес на 1
     tx_data_i2c[tail_of_i2c1_tx]=data;
+    tail_of_i2c1_tx++;
+    if(tail_of_i2c1_tx==8)
+      tail_of_i2c1_tx=0;
     I2C1->CR1 |= I2C_CR1_START;
-
-    I2C1->CR2|= I2C_CR2_ITBUFEN;        // прерывание по пустому буферу - флаг - TxE
-
-    //I2C1->CR1 |= I2C_CR1_START;
-    //while(!(I2C1->SR1 & I2C_SR1_SB));
-    //(void) I2C1->SR1;
-    //adress=(adress<<1);// сдвигаем адрес на 1
-    //adress|=tx_or_rx;
-    I2C1->DR = adress;                   //
-    green_on();
+    while(!(I2C1->SR1 & I2C_SR1_SB));
+    (void) I2C1->SR1;
+    I2C1->DR=adress;
     while (!(I2C1->SR1 & I2C_SR1_ADDR)); // ожидаем окончания передачи адреса
     (void) I2C1->SR1;  // по даташиту это надо читать...
     (void) I2C1->SR2;  //
+    I2C1->CR2|= I2C_CR2_ITBUFEN;        // прерывание по пустому буферу - флаг - TxE
+    green_on();
     I2C1->DR = data;
     while (!(I2C1->SR1 & I2C_SR1_TXE))  // ждем, флаг ставится если регистр DR пуст
        {}

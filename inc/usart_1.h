@@ -1,5 +1,5 @@
 // ---------------- usart1
-// PA9   tx
+// PA9   tx - (point)
 // PA10  rx
 void init_usart_1()
     {
@@ -11,10 +11,10 @@ void init_usart_1()
 
     USART1->BRR =(SYS_CLK+BAUDRATE_USART_1/16)/BAUDRATE_USART_1;    // делитель на 9600
     USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;     				//
-    // прерывание по приёму
-    // Запускаем модуль USART
-    USART1->CR1 |= USART_CR1_UE;
-    USART1->CR1 |= USART_CR1_RXNEIE;
+
+
+    USART1->CR1 |= USART_CR1_UE;			// Запускаем модуль USART
+    USART1->CR1 |= USART_CR1_RXNEIE;		// прерывание по приёму
     }
 
 void add_data_usart1(char c)

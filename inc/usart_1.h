@@ -11,8 +11,8 @@ void init_usart_1()
 
     USART1->BRR =(SYS_CLK+BAUDRATE_USART_1/16)/BAUDRATE_USART_1;    // делитель на 9600
     USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;     				//
-
-
+    USART1->CR3 |= USART_CR3_DMAT;	// DMA enable transfer
+	//USART1->SR  &= (~USART_SR_TC);	// clear TC bit ... -???-
     USART1->CR1 |= USART_CR1_UE;			// Запускаем модуль USART
     USART1->CR1 |= USART_CR1_RXNEIE;		// прерывание по приёму
     }
